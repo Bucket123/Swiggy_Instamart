@@ -18,10 +18,11 @@ import java.util.UUID;
 public class AppUserService {
 
     AppUserRepository appUserRepository;
-
+    MailService mailService;
     @Autowired
-    public AppUserService(AppUserRepository appUserRepository){
+    public AppUserService(AppUserRepository appUserRepository, MailService mailService){
         this.appUserRepository = appUserRepository;
+        this.mailService = mailService;
     }
 
     public AppUser registerCustomer(AppUser customer){
@@ -42,33 +43,19 @@ public class AppUserService {
         }
 
         wareHouseAdmin.setStatus("Inactive");
-        this.sendEmailInvite(wareHouseAdmin);
-        return appUserRepository.save(wareHouseAdmin);
+        wareHouseAdmin = appUserRepository.save(wareHouseAdmin);
+        mailService.sendWarehouseInvitationEmail(wareHouseAdmin);
+        return wareHouseAdmin;
     }
 
-    public void sendEmailInvite(AppUser wareHouseAdmin){
-        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-        javaMailSender.setUsername("shubham7ja@gmail.com");
-        javaMailSender.setPassword("eyolwtcqqezyldkb");
-        Properties props = javaMailSender.getJavaMailProperties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        try{
-            //mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true);
-            mimeMessageHelper.setTo(wareHouseAdmin.getEmail());
-            mimeMessageHelper.setSubject("Welcome to Swiggy-Instamart");
-            mimeMessageHelper.setText("How are you!" + wareHouseAdmin.getName(),true);
-        }catch (Exception e){
-            System.out.print(e.getMessage());
-        }
-        javaMailSender.send(mimeMessage);
-
+    public void acceptWarehouseAdminInvite(UUID warehouseAdminId){
+        AppUser warehouseAdmin = appUserRepository.findById(warehouseAdminId).orElse(null);
+        warehouseAdmin.setStatus("Active");
+        appUserRepository.save(warehouseAdmin);
     }
+
+
+
 
 
 }

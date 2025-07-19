@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Invitation for ' + ${warehouseName}">Warehouse Invitation</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #121212;
+            color: #e6e6e6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-wrapper {
+            width: 100%;
+            padding: 40px 0;
+            background-color: #121212;
+        }
+
+        .email-content {
+            background-color: #1e1e1e;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 14px 26px;
+            background-color: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #666666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="email-content">
+        <h1>Hello <span th:text="${warehouseAdminName}">Warehouse Admin</span>,</h1>
+
+        <p>
+            We’re excited to invite you to join <strong>GroceryGo</strong> as one of our trusted warehouse partners.
+            Your role is essential to ensuring fast, reliable grocery deliveries for our customers.
+        </p>
+
+        <p>
+            To get started, please confirm your interest by clicking the button below. After accepting, you’ll be guided through the setup process to begin managing your inventory and dispatches.
+        </p>
+
+        <a th:href="@{${acceptLink}}" class="button">Accept Invitation</a>
+
+        <p>
+            If you have any questions, our support team is here to help. Simply reply to this email or visit our help center.
+        </p>
+
+        <p>
+            If you didn’t expect this invitation, you can safely ignore this email — no action is required.
+        </p>
+    </div>
+
+    <div class="footer">
+        &copy; 2025 GroceryGo Inc. | All rights reserved
+    </div>
+</div>
+</body>
+</html>

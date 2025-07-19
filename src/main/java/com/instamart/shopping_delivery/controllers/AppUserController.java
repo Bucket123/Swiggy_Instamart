@@ -40,6 +40,10 @@ public class AppUserController {
         }catch (InvalidOperationException e){
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-
+    }
+    @GetMapping("/warehouse/admin/invite/{warehouseAdminId}")
+    public ResponseEntity acceptWarehouseAdminInvite(@PathVariable UUID warehouseAdminId){
+        appUserService.acceptWarehouseAdminInvite(warehouseAdminId);
+        return new ResponseEntity<>("Warehouse Admin Created",HttpStatus.CREATED);
     }
 }
